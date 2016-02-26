@@ -3088,6 +3088,7 @@ public:
   CephContext *ctx();
 
   bool is_canceled() { return canceled; }
+  bool is_compressed() { return compressed; }
 }; /* RGWPutObjProcessor */
 
 struct put_obj_aio_info {
