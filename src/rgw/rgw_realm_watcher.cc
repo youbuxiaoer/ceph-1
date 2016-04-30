@@ -142,5 +142,6 @@ void RGWRealmWatcher::watch_stop()
     pool_ctx.unwatch2(watch_handle);
     pool_ctx.close();
     watch_oid.clear();
+    rados.shutdown();
   }
 }
