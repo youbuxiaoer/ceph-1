@@ -177,6 +177,7 @@ struct RGWDataSyncEnv {
     async_rados = _async_rados;
     http_manager = _http_manager;
     error_logger = _error_logger;
+generic_dout(0) << __FILE__ << ":" << __LINE__ << ":" << __func__ << "(): this=" << (void *)this << " set error_logger=" << (void *)error_logger << dendl;
     source_zone = _source_zone;
   }
 

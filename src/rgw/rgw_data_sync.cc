@@ -1352,6 +1352,7 @@ int RGWDataSyncStatusManager::init()
   source_status_obj = rgw_obj(store->get_zone_params().log_pool, RGWDataSyncStatusManager::sync_status_oid(source_zone));
 
   error_logger = new RGWSyncErrorLogger(store, RGW_SYNC_ERROR_LOG_SHARD_PREFIX, ERROR_LOGGER_SHARDS);
+dout(0) << __FILE__ << ":" << __LINE__ << ":" << __func__ << "(): this=" << (void *)this << " init error_logger=" << (void *)error_logger << dendl;
 
   r = source_log.init(source_zone, conn, error_logger);
   if (r < 0) {
@@ -1379,6 +1380,7 @@ int RGWDataSyncStatusManager::init()
 
 void RGWDataSyncStatusManager::finalize()
 {
+dout(0) << __FILE__ << ":" << __LINE__ << ":" << __func__ << "(): this=" << (void *)this << " delete error_logger=" << (void *)error_logger << dendl;
   delete error_logger;
   error_logger = nullptr;
   ioctx.close();
@@ -1645,6 +1647,7 @@ RGWBucketSyncStatusManager::~RGWBucketSyncStatusManager() {
   for (map<int, RGWRemoteBucketLog *>::iterator iter = source_logs.begin(); iter != source_logs.end(); ++iter) {
     delete iter->second;
   }
+dout(0) << __FILE__ << ":" << __LINE__ << ":" << __func__ << "(): this=" << (void *)this << " delete error_logger=" << (void *)error_logger << dendl;
   delete error_logger;
 }
 
@@ -2491,6 +2494,7 @@ int RGWBucketSyncStatusManager::init()
   num_shards = bi.num_shards;
 
   error_logger = new RGWSyncErrorLogger(store, RGW_SYNC_ERROR_LOG_SHARD_PREFIX, ERROR_LOGGER_SHARDS);
+dout(0) << __FILE__ << ":" << __LINE__ << ":" << __func__ << "(): this=" << (void *)this << " set error_logger=" << (void *)error_logger << dendl;
 
   int effective_num_shards = (num_shards ? num_shards : 1);
 
