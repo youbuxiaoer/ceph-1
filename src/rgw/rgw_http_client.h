@@ -111,6 +111,7 @@ class RGWHTTPManager {
 
   RWLock reqs_lock;
   map<uint64_t, rgw_http_req_data *> reqs;
+  list<rgw_http_req_data *> unregistered_reqs;
   map<uint64_t, rgw_http_req_data *> complete_reqs;
   int64_t num_reqs;
   int64_t max_threaded_req;
@@ -123,7 +124,7 @@ class RGWHTTPManager {
   void _finish_request(rgw_http_req_data *req_data, int r);
   int link_request(rgw_http_req_data *req_data);
 
-  void link_pending_requests();
+  void manage_pending_requests();
 
   class ReqsThread : public Thread {
     RGWHTTPManager *manager;

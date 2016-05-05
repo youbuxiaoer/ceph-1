@@ -254,7 +254,9 @@ int RGWHTTPClient::wait()
 RGWHTTPClient::~RGWHTTPClient()
 {
   if (req_data) {
+#if 0
     wait();
+#endif
     req_data->put();
   }
 }
@@ -375,6 +377,14 @@ void RGWHTTPManager::register_request(rgw_http_req_data *req_data)
   ldout(cct, 20) << __func__ << " mgr=" << this << " req_data->id=" << req_data->id << ", easy_handle=" << req_data->easy_handle << dendl;
 }
 
+void RGWHTTPManager::unregister_request(rgw_http_req_data *req_data)
+{
+  RWLock::WLocker rl(reqs_lock);
+  req_data->get();
+  unregistered_reqs.push_back(req_data);
+  ldout(cct, 20) << __func__ << " mgr=" << this << " req_data->id=" << req_data->id << ", easy_handle=" << req_data->easy_handle << dendl;
+}
+
 void RGWHTTPManager::complete_request(rgw_http_req_data *req_data)
 {
   RWLock::WLocker rl(reqs_lock);
@@ -416,16 +426,26 @@ int RGWHTTPManager::link_request(rgw_http_req_data *req_data)
   return 0;
 }
 
-void RGWHTTPManager::link_pending_requests()
+void RGWHTTPManager::manage_pending_requests()
 {
   reqs_lock.get_read();
-  if (max_threaded_req == num_reqs) {
+  if (max_threaded_req == num_reqs && unregisterd_reqs.empty()) {
     reqs_lock.unlock();
     return;
   }
   reqs_lock.unlock();
 
   RWLock::WLocker wl(reqs_lock);
+
+  for (auto& r : unregistered_reqs) {
+    if (r->easy_handle) {
+      curl_multi_remove_handle((CURLM *)multi_handle, r->easy_handle);
+    }
+    _finish_request(r, 0);
+    r->put();
+  }
+
+  unregistered_reqs.clear();
 
   map<uint64_t, rgw_http_req_data *>::iterator iter = reqs.find(max_threaded_req);
 
@@ -481,6 +501,26 @@ int RGWHTTPManager::add_request(RGWHTTPClient *client, const char *method, const
   }
 
   return ret;
+}
+
+int RGWHTTPManager::remove_request(RGWHTTPClient *client)
+{
+  rgw_http_req_data *req_data = client->get_req_data();
+
+  if (!is_threaded) {
+    int ret = unlink_request(req_data);
+    if (ret < 0) {
+      return ret;
+    }
+    return 0;
+  }
+  unregister_request(req_data);
+  int ret = signal_thread();
+  if (ret < 0) {
+    return ret;
+  }
+
+  return 0;
 }
 
 int RGWHTTPManager::process_requests(bool wait_for_data, bool *done)
@@ -605,7 +645,7 @@ void *RGWHTTPManager::reqs_thread_entry()
       return NULL;
     }
 
-    link_pending_requests();
+    manage_pending_requests();
 
     mstatus = curl_multi_perform((CURLM *)multi_handle, &still_running);
     switch (mstatus) {
