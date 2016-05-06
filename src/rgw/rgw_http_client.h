@@ -120,6 +120,9 @@ class RGWHTTPManager {
   void register_request(rgw_http_req_data *req_data);
   void complete_request(rgw_http_req_data *req_data);
   void _complete_request(rgw_http_req_data *req_data);
+  void unregister_request(rgw_http_req_data *req_data);
+  void _unlink_request(rgw_http_req_data *req_data);
+  void unlink_request(rgw_http_req_data *req_data);
   void finish_request(rgw_http_req_data *req_data, int r);
   void _finish_request(rgw_http_req_data *req_data, int r);
   int link_request(rgw_http_req_data *req_data);
@@ -148,6 +151,7 @@ public:
   void stop();
 
   int add_request(RGWHTTPClient *client, const char *method, const char *url);
+  int remove_request(RGWHTTPClient *client);
 
   /* only for non threaded case */
   int process_requests(bool wait_for_data, bool *done);
