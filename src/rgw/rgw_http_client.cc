@@ -2,9 +2,8 @@
 // vim: ts=8 sw=2 smarttab
 
 #include "include/compat.h"
-
 #include <boost/utility/string_ref.hpp>
-
+#include <boost/utility/string_ref.hpp>
 #include <curl/curl.h>
 #include <curl/easy.h>
 #include <curl/multi.h>

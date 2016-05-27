@@ -1,8 +1,9 @@
 // -*- mode:C++; tab-width:8; c-basic-offset:2; indent-tabs-mode:t -*-
 // vim: ts=8 sw=2 smarttab
 
+#include <array>
+#include <string>
 #include <errno.h>
-#include <string.h>
 
 #include "common/ceph_crypto.h"
 #include "common/Formatter.h"
@@ -37,6 +38,7 @@ using namespace rgw;
 using namespace ceph::crypto;
 
 using std::get;
+using std::string;
 
 void list_all_buckets_start(struct req_state *s)
 {
