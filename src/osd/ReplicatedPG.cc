@@ -9893,6 +9893,8 @@ void ReplicatedPG::mark_all_unfound_lost(
       [=]() {
 	requeue_ops(waiting_for_all_missing);
 	waiting_for_all_missing.clear();
+	requeue_object_waiters(waiting_for_unreadable_object);
+	// XXX: What about waiting_for_degraded_object, waiting_for_blocked_object?
 	queue_recovery();
 
 	stringstream ss;
