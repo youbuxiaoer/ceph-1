@@ -574,6 +574,8 @@ int main(int argc, const char **argv)
   if (preload_erasure_code() < 0)
     return -1;
 
+  srand(time(NULL) + getpid());
+
   osd = new OSD(g_ceph_context,
                 store,
                 whoami,

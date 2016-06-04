@@ -80,6 +80,7 @@ int IndexManager::init_index(coll_t c, const char *path, uint32_t version) {
     return r;
   HashIndex index(c, path, g_conf->filestore_merge_threshold,
 		  g_conf->filestore_split_multiple,
+		  g_conf->filestore_split_rand_factor,
 		  version,
 		  g_conf->filestore_index_retry_probability);
   return index.init();
@@ -101,7 +102,9 @@ int IndexManager::build_index(coll_t c, const char *path, CollectionIndex **inde
     case CollectionIndex::HOBJECT_WITH_POOL: {
       // Must be a HashIndex
       *index = new HashIndex(c, path, g_conf->filestore_merge_threshold,
-				   g_conf->filestore_split_multiple, version);
+			     g_conf->filestore_split_multiple,
+			     g_conf->filestore_split_rand_factor,
+			     version);
       return 0;
     }
     default: assert(0);
@@ -110,9 +113,10 @@ int IndexManager::build_index(coll_t c, const char *path, CollectionIndex **inde
   } else {
     // No need to check
     *index = new HashIndex(c, path, g_conf->filestore_merge_threshold,
-				 g_conf->filestore_split_multiple,
-				 CollectionIndex::HOBJECT_WITH_POOL,
-				 g_conf->filestore_index_retry_probability);
+			   g_conf->filestore_split_multiple,
+			   g_conf->filestore_split_rand_factor,
+			   CollectionIndex::HOBJECT_WITH_POOL,
+			   g_conf->filestore_index_retry_probability);
     return 0;
   }
 }
