@@ -1,3 +1,9 @@
+ceph (0.94.3.4-1) stable; urgency=low
+
+  * New upstream release
+
+ -- Marcus Watts <mwatts@redhat.com>  Thu, 16 Jun 2016 02:37:30 -0400
+
 ceph (0.94.3.3-1) stable; urgency=low
 
   * New upstream release
