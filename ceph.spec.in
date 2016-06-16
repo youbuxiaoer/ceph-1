@@ -572,21 +572,6 @@ librados2-devel, librbd1-devel and libcephfs1-devel. Packages still depending
 on ceph-devel should be fixed to depend on librados2-devel, librbd1-devel,
 libcephfs1-devel or libradosstriper1-devel instead.
 
-%package -n python-ceph-compat
-Summary:	Compatibility package for Cephs python libraries
-Group:		System Environment/Libraries
-License:	LGPL-2.0
-Obsoletes:	python-ceph
-Requires:	python-rados = %{epoch}:%{version}-%{release}
-Requires:	python-rbd = %{epoch}:%{version}-%{release}
-Requires:	python-cephfs = %{epoch}:%{version}-%{release}
-Provides:	python-ceph
-%description -n python-ceph-compat
-This is a compatibility package to accommodate python-ceph split into
-python-rados, python-rbd and python-cephfs. Packages still depending on
-python-ceph should be fixed to depend on python-rados, python-rbd or
-python-cephfs instead.
-
 #################################################################################
 # common
 #################################################################################
@@ -1476,11 +1461,6 @@ exit 0
 #################################################################################
 %files devel-compat
 # We need an empty %%files list for ceph-devel-compat, to tell rpmbuild to
-# actually build this meta package.
-
-#################################################################################
-%files -n python-ceph-compat
-# We need an empty %%files list for python-ceph-compat, to tell rpmbuild to
 # actually build this meta package.
 
 
