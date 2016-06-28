@@ -943,7 +943,8 @@ set(osd_srcs
   osd/ScrubStore.cc
   osd/osd_types.cc
   osd/ECUtil.cc
-  osd/mClockOpClassAdapter.cc
+  osd/mClockOpClassQueue.cc
+  osd/mClockClientQueue.cc
   ${osdc_osd_srcs})
 set(osd_mon_files
   mon/Monitor.cc)
