@@ -156,7 +156,7 @@ public:
   }
 
   void start_external_replay(journal::Replay<ImageCtxT> **journal_replay,
-                             Context *on_finish);
+                             Context *on_start, Context *on_close_request);
   void stop_external_replay();
 
   void add_listener(journal::ListenerType type,
@@ -294,6 +294,7 @@ private:
   bool m_blocking_writes;
 
   journal::Replay<ImageCtxT> *m_journal_replay;
+  Context *m_on_replay_close_request = nullptr;
 
   struct MetadataListener : public ::journal::JournalMetadataListener {
     Journal<ImageCtxT> *journal;
