@@ -2171,7 +2171,7 @@ int main(int argc, char **argv)
         return EINVAL;
       }
     } else if (ceph_argparse_witharg(args, i, &val, "--max-size", (char*)NULL)) {
-      max_size = strict_si_cast<int64_t>(val.c_str(), &err);
+      max_size = strict_si_cast<long long>(val.c_str(), &err);
       if (!err.empty()) {
         cerr << "ERROR: failed to parse max size: " << err << std::endl;
         return EINVAL;
