@@ -14,6 +14,11 @@
 #
 # Please submit bugfixes or comments via http://tracker.ceph.com/
 # 
+
+# Turn off the brp-python-bytecompile script
+# TODO: remove this when everything is ported to Python 3
+%global __os_install_post %(echo '%{__os_install_post}' | sed -e 's!/usr/lib[^[:space:]]*/brp-python-bytecompile[[:space:]].*$!!g')
+
 %bcond_with ocf
 %bcond_without cephfs_java
 %bcond_with tests
