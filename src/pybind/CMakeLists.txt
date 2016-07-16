@@ -2,7 +2,7 @@ include(Distutils)
 
 set(CYTHON_MODULE_DIR ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/cython_modules)
 
-foreach(python_version 2 3)
+foreach(python_version 3 2)  # Keep the default version last
   if(${python_version} EQUAL 2)
     set(PYTHON_VERSION "")
   else(${python_version} EQUAL 2)
@@ -40,9 +40,12 @@ foreach(python_version 2 3)
     OUTPUT_STRIP_TRAILING_WHITESPACE)
 
   install(FILES
-    ${CMAKE_CURRENT_SOURCE_DIR}/ceph_argparse.py
-    ${CMAKE_CURRENT_SOURCE_DIR}/ceph_daemon.py
-    ${CMAKE_CURRENT_SOURCE_DIR}/ceph_rest_api.py
     ${CMAKE_CURRENT_SOURCE_DIR}/ceph_volume_client.py
     DESTINATION ${PYTHON${PYTHON_VERSION}_INSTDIR})
 endforeach()
+
+install(FILES
+  ${CMAKE_CURRENT_SOURCE_DIR}/ceph_argparse.py
+  ${CMAKE_CURRENT_SOURCE_DIR}/ceph_daemon.py
+  ${CMAKE_CURRENT_SOURCE_DIR}/ceph_rest_api.py
+  DESTINATION ${PYTHON_INSTDIR})
