@@ -321,8 +321,10 @@ add_subdirectory(json_spirit)
 
 include_directories("${CMAKE_SOURCE_DIR}/src/xxHash")
 
-set(GMOCK_INCLUDE_DIRS "${CMAKE_SOURCE_DIR}/src/gmock/include")
-set(GTEST_INCLUDE_DIRS "${CMAKE_SOURCE_DIR}/src/gmock/gtest/include")
+set(GMOCK_INCLUDE_DIRS
+  "${CMAKE_SOURCE_DIR}/src/googletest/googletest/include/gmock")
+set(GTEST_INCLUDE_DIRS
+  "${CMAKE_SOURCE_DIR}/src/googletest/googletest/include/gtest")
 
 include_directories("${CMAKE_SOURCE_DIR}/src/dmclock/src")
 include_directories("${CMAKE_SOURCE_DIR}/src/dmclock/support/src")
@@ -945,6 +947,7 @@ set(osd_srcs
   osd/ECUtil.cc
   osd/mClockOpClassQueue.cc
   osd/mClockClientQueue.cc
+  osd/PGQueueable.cc
   ${osdc_osd_srcs})
 set(osd_mon_files
   mon/Monitor.cc)
