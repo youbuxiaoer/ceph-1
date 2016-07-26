@@ -757,8 +757,7 @@ if(WITH_LIBCEPHFS)
     set_target_properties(cephfs PROPERTIES
       OUTPUT_NAME cephfs
       VERSION 1.0.0
-      SOVERSION 1
-      LINK_FLAGS "-Wl,--exclude-libs=libcommon.a")
+      SOVERSION 1)
   endif(ENABLE_SHARED)
   install(TARGETS cephfs DESTINATION ${CMAKE_INSTALL_LIBDIR})
   install(DIRECTORY

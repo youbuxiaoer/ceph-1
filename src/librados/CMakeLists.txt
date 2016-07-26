@@ -20,7 +20,6 @@ if(ENABLE_SHARED)
     # use COMPILE_FLAGS for the backward compatibility with cmake 2.8.11, should have been:
     #  CXX_VISIBILITY_PRESET hidden
     #  VISIBILITY_INLINES_HIDDEN ON
-    COMPILE_FLAGS "-fvisibility=hidden -fvisibility-inlines-hidden"
-    LINK_FLAGS "-Wl,--exclude-libs,ALL")
+    COMPILE_FLAGS "-fvisibility=hidden -fvisibility-inlines-hidden")
 endif(ENABLE_SHARED)
 install(TARGETS librados DESTINATION ${CMAKE_INSTALL_LIBDIR})
